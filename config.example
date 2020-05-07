@@ -1,0 +1,7 @@
+## Config
+#
+# NOTE: this is a bash script, so use bash-compatible syntax...
+
+LOG_DIR="/path/to/log/directory"
+AUTHOR="my-name"
+

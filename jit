@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+
+if [ $# -le 0 ]; then
+    echo "invalid argument: please specify the name for this logfile"
+    echo "try '$0 <log-name>'"
+    exit -1
+fi
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+CONFIG_FILE="$DIR/config.cfg"
+CONFIG_EXAMPLE="$DIR/config.example"
+
+if [ ! -f $CONFIG_FILE ]; then
+    cp $CONFIG_EXAMPLE $CONFIG_FILE
+    read -p "Please edit your config file! [OK]"
+    vim $CONFIG_FILE
+fi
+
+. $CONFIG_FILE
+
+if [ ! -d $LOG_DIR ]; then
+    echo "Note: directory '$LOG_DIR' does not exist."
+    echo "Please create it manually or update the config file"
+
+    exit -2
+fi
+
+echo "Got '$LOG_DIR', '$AUTHOR'"
+
+
+TITLE="$1"
+CURR_DATE=$(date +'%Y-%m-%d')
+
+LOGFILE_NAME="$LOG_DIR/${CURR_DATE}_${TITLE}.txt"
+
+if [ ! -f $LOGFILE_NAME ]; then
+    echo "New log entry '$TITLE'"
+    read -p "Project code? " PROJECT_CODE
+    read -p "Tags? (csv) " TAGS
+
+    echo "---" > $LOGFILE_NAME
+    echo "title: $TITLE" >> $LOGFILE_NAME
+    echo "date: $CURR_DATE" >> $LOGFILE_NAME
+    echo "author: $AUTHOR" >> $LOGFILE_NAME
+    echo "project: $PROJECT_CODE" >> $LOGFILE_NAME
+    echo "tags: $TAGS" >> $LOGFILE_NAME
+    echo "---" >> $LOGFILE_NAME
+    echo "" >> $LOGFILE_NAME
+    echo "" >> $LOGFILE_NAME
+fi
+
+vim + $LOGFILE_NAME
+
