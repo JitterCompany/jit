@@ -36,9 +36,11 @@ fi
 TITLE="$1"
 CURR_DATE=$(date +'%Y-%m-%d')
 
-LOGFILE_NAME="$LOG_DIR/${CURR_DATE}_${TITLE}.txt"
+LOGFILE_PATTERN="$LOG_DIR/*_${TITLE}.txt"
 
-if [ ! -f $LOGFILE_NAME ]; then
+if [ ! -f $LOGFILE_PATTERN ]; then
+    echo "no file $LOGFILE_PATTERN"
+    LOGFILE_NAME="$LOG_DIR/${CURR_DATE}_${TITLE}.txt"
     echo "New log entry '$TITLE'"
     read -p "Project code? " PROJECT_CODE
     read -p "Tags? (csv) " TAGS
@@ -54,5 +56,5 @@ if [ ! -f $LOGFILE_NAME ]; then
     echo "" >> $LOGFILE_NAME
 fi
 
-vim + $LOGFILE_NAME
+vim + $LOGFILE_PATTERN
 
