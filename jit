@@ -56,5 +56,8 @@ if [ ! -f $LOGFILE_PATTERN ]; then
     echo "" >> $LOGFILE_NAME
 fi
 
-vim + $LOGFILE_PATTERN
-
+if [[ "$2" == "--cat" ]]; then
+    cat + $LOGFILE_PATTERN
+else
+    vim + $LOGFILE_PATTERN
+fi
