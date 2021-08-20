@@ -64,6 +64,17 @@ if [ ! -f $LOGFILE_PATTERN ]; then
     LOGFILE_NAME="$LOG_DIR/${CURR_DATE}_${TITLE}.md"
     echo "New log entry '$TITLE'"
     read -p "Project code? " PROJECT_CODE
+
+    if [[ "$PROJECT_CODE" =~ [^a-zA-Z0-9] ]]; then
+        echo "🚫 invalid project code: use [^a-zA-Z0-9] or press enter for default"
+        read -p "Project code? [0000]" PROJECT_CODE
+        PROJECT_CODE=${PROJECT_CODE:-0000}
+        # if still wrong we just replace it with 0000
+        if [[ "$PROJECT_CODE" =~ [^a-zA-Z0-9] ]]; then
+            PROJECT_CODE=0000
+        fi
+    fi
+
     read -p "Tags? (csv) " TAGS
 
     echo "---" > $LOGFILE_NAME
