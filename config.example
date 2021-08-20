@@ -3,5 +3,5 @@
 # NOTE: this is a bash script, so use bash-compatible syntax...
 
 LOG_DIR="/path/to/log/directory"
+TEMP_DIR="/path/to/temp/directory"
 AUTHOR="my-name"
-
