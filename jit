@@ -84,7 +84,7 @@ if [ ! -f $LOGFILE_PATTERN ]; then
     echo "project: $PROJECT_CODE" >> $LOGFILE_NAME
     echo "tags:" >> $LOGFILE_NAME
     # remove trailing comma if any | replace comma with newline | add dash and white space |
-    echo $TAGS | awk 'gsub(/,$/,x)' | tr "," "\n" | awk '{print "  - " $1 }' >> $LOGFILE_NAME
+    echo $TAGS | sed 's/,*$//' | tr "," "\n" | awk '{print "  - " $1 }' >> $LOGFILE_NAME
     echo "---" >> $LOGFILE_NAME
     echo "" >> $LOGFILE_NAME
     echo "" >> $LOGFILE_NAME
