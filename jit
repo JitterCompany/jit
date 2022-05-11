@@ -46,6 +46,7 @@ fi
 if [ $# -le 0 ]; then
     echo "Usage '$(basename "$0") <log-name>'"
     echo ""
+    echo "or: '$(basename "$0") -p <project-code>'"
 
     echo "Existing logs:"
     ls "$LOG_DIR" | cat | grep "\.md$" | sed "s/^[0-9]*-[0-9]*-[0-9]*_//" | sed "s/\.md//"
@@ -53,17 +54,35 @@ if [ $# -le 0 ]; then
     exit -1
 fi
 
-
-TITLE="$1"
 CURR_DATE=$(date +'%Y-%m-%d')
 
-LOGFILE_PATTERN="$LOG_DIR/*_${TITLE}.md"
+if [[ $1 = "-p" ]]; then
+
+    if [[ $# -le 1 ]]; then
+        echo "provide a project code"
+        echo "Usage '$(basename "$0") -p <project-code>'"
+        exit -1
+    fi
+    echo "new log entry for project code $2"
+
+    PROJECT_CODE=$2
+    TITLE=${CURR_DATE}_${PROJECT_CODE}
+    # exit 0;
+
+else
+    # if arg 1 is not '-p' then it will be the note title
+    TITLE="$1"
+fi
+
+LOGFILE_PATTERN="$LOG_DIR/*${TITLE}.md"
 
 if [ ! -f $LOGFILE_PATTERN ]; then
     echo "no file $LOGFILE_PATTERN"
     LOGFILE_NAME="$LOG_DIR/${CURR_DATE}_${TITLE}.md"
     echo "New log entry '$TITLE'"
-    read -p "Project code? " PROJECT_CODE
+    if [[ -z $PROJECT_CODE ]]; then
+        read -p "Project code? " PROJECT_CODE
+    fi
 
     if [[ "$PROJECT_CODE" =~ [^a-zA-Z0-9] || "$PROJECT_CODE" == "" ]]; then
         echo "🚫 invalid project code: use [^a-zA-Z0-9] or press enter for default"
