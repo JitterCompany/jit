@@ -1,6 +1,28 @@
 # jit
 jit[ter] journal script: quickly write a timestamped,  tagged log entry.
 
+## Usage
+
+Write a random note:
+
+```bash
+$ jit name-of-some-note
+```
+
+Write a journal entry for a specific project
+
+```bash
+# jit -p <project-code> -j <journal-name>
+$ jit -p 1001 -j firmware-log
+✅ Accessing jit directory '/Volumes/logboek/logs'
+new log entry for project code 1001
+no file /Volumes/logboek/logs/*2022-10-19_1001.md
+New log entry '2022-10-19_1001'
+Tags? (csv)
+```
+
+
+
 ## Installation
 
 ### Requirements

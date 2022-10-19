@@ -69,6 +69,14 @@ if [[ $1 = "-p" ]]; then
     TITLE=${CURR_DATE}_${PROJECT_CODE}
     # exit 0;
 
+    if [[ $3 = "-j" ]]; then
+        if [[ $# -le 3 ]]; then
+            echo "🚫 To add a journal entry use: $(basename "$0") -p <project-code> -j <journal-name>"
+            exit -1
+        fi
+        JOURNAL_NAME=$4
+    fi
+
 else
     # if arg 1 is not '-p' then it will be the note title
     TITLE="$1"
@@ -101,6 +109,11 @@ if [ ! -f $LOGFILE_PATTERN ]; then
     echo "date: $CURR_DATE" >> $LOGFILE_NAME
     echo "author: $AUTHOR" >> $LOGFILE_NAME
     echo "project: $PROJECT_CODE" >> $LOGFILE_NAME
+
+    if [ ! -z ${JOURNAL_NAME+x} ]; then
+        echo "journal: $JOURNAL_NAME " >> $LOGFILE_NAME
+    fi
+
     echo "tags:" >> $LOGFILE_NAME
     # remove trailing comma if any | replace comma with newline | add dash and white space |
     echo $TAGS | sed 's/,*$//' | tr "," "\n" | awk '{print "  - " $1 }' >> $LOGFILE_NAME
