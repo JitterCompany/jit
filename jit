@@ -75,6 +75,7 @@ if [[ $1 = "-p" ]]; then
             exit -1
         fi
         JOURNAL_NAME=$4
+        TITLE=${JOURNAL_NAME}_${CURR_DATE}
     fi
 
 else
